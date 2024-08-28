@@ -171,20 +171,24 @@ LABEL maintainer="matthuisman"
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
-RUN echo "deb http://ftp.de.debian.org/debian sid main " >> /etc/apt/sources.list
+
 
 RUN \
  apt-get update && \
  apt-get install -y \
 	--no-install-recommends \
-        samba-libs=2:4.17.12+dfsg-0+deb12u1
+	samba-common-bin \
+ 	libsmbclient
+
+
+RUN echo "deb http://ftp.de.debian.org/debian sid main " >> /etc/apt/sources.list
+
 
 # install runtime packages
 RUN \
  apt-get update && \
  apt-get install -y \
 	--no-install-recommends \
-	samba-common-bin \
 	libass9 \
 	libbluray2 \
 	libegl1 \
@@ -196,8 +200,7 @@ RUN \
 	libnfs13 \
 	libpcrecpp0v5 \
 	libpython3.10 \
-	python3-minimal \
-	libsmbclient \
+	python3-minimal \	
 	libtag1v5 \
 	libtinyxml2.6.2v5 \
 	libtinyxml2-9 \

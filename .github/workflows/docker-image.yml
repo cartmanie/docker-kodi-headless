@@ -41,10 +41,13 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Create and push manifest images
-      uses: int128/docker-manifest-create-action@v1
-      with:
-        builder: buildx
-        tags: cartmanie/kodi-headless:${{ github.ref_name }}
-        suffixes: |
-          -i686
+    - name: Build and push i686 image
+      run: |
+        docker build -t cartmanie/kodi-headless:${{ github.ref_name }}-i686 --build-arg ARCH=i686 .
+        docker push cartmanie/kodi-headless:${{ github.ref_name }}-i686
+
+    - name: Create and push manifest list
+      run: |
+        docker manifest create cartmanie/kodi-headless:${{ github.ref_name }} \
+            cartmanie/kodi-headless:${{ github.ref_name }}-i686
+        docker manifest push cartmanie/kodi-headless:${{ github.ref_name }}

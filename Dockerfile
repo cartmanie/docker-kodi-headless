@@ -1,6 +1,22 @@
 ############## build stage ##############
-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy as buildstage
+#FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy as buildstage
+FROM debian:bookworm-slim as buildstage
 
+
+USER root
+
+RUN \
+ apt-get update && \
+ apt-get upgrade tar && \
+ apt-get install -y \
+	 --no-install-recommends \
+          curl
+
+
+
+#RUN false
+
+RUN echo "deb http://ftp.de.debian.org/debian sid main " >> /etc/apt/sources.list
 # install build packages
 RUN \
  apt-get update && \
@@ -11,7 +27,6 @@ RUN \
 	autopoint \
 	binutils \
 	cmake \
-	curl \
 	default-jre \
 	g++ \
 	gawk \
@@ -27,7 +42,7 @@ RUN \
 	libegl1-mesa-dev \
 	libflac-dev \
 	libfmt-dev \
-	libfreetype6-dev \
+	libfreetype-dev \
 	libfstrcmp-dev \
 	libgif-dev \
 	libglew-dev \
@@ -80,7 +95,7 @@ RUN \
  curl -o \
  /tmp/kodi.tar.gz -L "$SOURCE" && \
  tar xf /tmp/kodi.tar.gz -C \
-	/tmp/kodi-source --strip-components=1
+	/tmp/kodi-source --strip-components=1 --no-same-owner
 
 # copy and apply patches
 COPY patches/ /patches/
@@ -144,7 +159,7 @@ RUN \
 	/tmp/kodi-build/usr/lib/python3.10/xbmcclient.py
 
 ############## runtime stage ##############
-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
+FROM debian:bookworm-slim
 
 # set version label
 ARG BUILD_DATE

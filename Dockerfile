@@ -166,12 +166,15 @@ ARG BUILD_DATE
 ARG VERSION
 LABEL build_version="matthuisman.nz version:- ${VERSION} Build-date:- ${BUILD_DATE}"
 LABEL maintainer="matthuisman"
-
+`
 # environment settings
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
 RUN echo "deb http://ftp.de.debian.org/debian sid main " >> /etc/apt/sources.list
+
+RUN \
+   apt install samba-libs=2:4.17.12+dfsg-0+deb12u1
 
 # install runtime packages
 RUN \

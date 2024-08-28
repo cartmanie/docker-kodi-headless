@@ -30,7 +30,7 @@ jobs:
         context: .
         platforms: linux/386
         push: true
-        tags: cartmanie/kodi-headless:${{ github.ref_name }}-i686
+        tags: southpark426/kodi-headless:${{ github.ref_name }}-i686
         build-args: |
           ARCH=i686
   

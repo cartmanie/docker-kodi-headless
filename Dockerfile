@@ -171,6 +171,8 @@ LABEL maintainer="matthuisman"
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV HOME="/config"
 
+RUN echo "deb http://ftp.de.debian.org/debian sid main " >> /etc/apt/sources.list
+
 # install runtime packages
 RUN \
  apt-get update && \

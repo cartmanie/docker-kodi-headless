@@ -174,6 +174,9 @@ ENV HOME="/config"
 RUN echo "deb http://ftp.de.debian.org/debian sid main " >> /etc/apt/sources.list
 
 RUN \
+ apt-get update && \
+ apt-get install -y \
+	--no-install-recommends \
    apt install samba-libs=2:4.17.12+dfsg-0+deb12u1
 
 # install runtime packages
